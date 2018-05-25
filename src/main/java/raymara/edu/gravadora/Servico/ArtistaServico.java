@@ -1,7 +1,9 @@
 package raymara.edu.gravadora.Servico;
 
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import raymara.edu.gravadora.Modelo.Artista;
@@ -38,6 +40,27 @@ public class ArtistaServico {
     public List<Artista> obterTodasArtistas() {
         return artistaRepositorio.findAll();
         //return new ArrayList<>();
+    }
+
+    @Transactional
+    public void excluir(Integer id) {
+        artistaRepositorio.deleteById(id );
+    }
+
+    @Transactional
+    public Artista atualiza(Integer id, Artista artista) {
+        Artista categoriaManager = this.buscaPor(id );
+
+        if (categoriaManager == null) {
+
+            throw new EmptyResultDataAccessException(1 );
+        }
+
+        BeanUtils.copyProperties(artista, categoriaManager, "id" );
+
+        this.salva(categoriaManager );
+
+        return categoriaManager;
     }
 }
 

@@ -2,7 +2,9 @@ package raymara.edu.gravadora.Controle;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import raymara.edu.gravadora.Modelo.Artista;
@@ -56,6 +58,21 @@ public class ArtistaControle {
     @GetMapping("/{id}")
     public Artista buscaPor(@PathVariable Integer id) {
         return artistaServico.buscaPor(id );
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public @ResponseBody void excluir(@PathVariable Integer id) {
+        artistaServico.excluir(id );
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Artista> atualizar(@PathVariable Integer id,
+                                               @Validated @RequestBody Artista artista ) {
+
+        Artista categoriaManager = artistaServico.atualiza(id, artista );
+        return ResponseEntity.ok(categoriaManager );
     }
 }
 
