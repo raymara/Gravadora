@@ -26,7 +26,7 @@ public class ArtistaControle {
     }
 
     @PostMapping
-    public ResponseEntity<Artista> cria(@RequestBody Artista artista, HttpServletResponse response) {
+    public ResponseEntity<Artista> cria(@Validated @RequestBody Artista artista, HttpServletResponse response) {
 
         Artista artistaSalva = artistaServico.salva(artista);
 
