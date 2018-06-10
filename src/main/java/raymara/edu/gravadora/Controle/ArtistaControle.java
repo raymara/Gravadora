@@ -2,11 +2,13 @@ package raymara.edu.gravadora.Controle;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import raymara.edu.gravadora.Controle.event.RecursoCriadoEvent;
 import raymara.edu.gravadora.Modelo.Artista;
 import raymara.edu.gravadora.Servico.ArtistaServico;
 
@@ -17,19 +19,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/artistas")
 public class ArtistaControle {
-
     private  final ArtistaServico artistaServico;
+
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     @Autowired
     public ArtistaControle(ArtistaServico artistaServico) {
         this.artistaServico = artistaServico;
     }
-
+   /*
     @PostMapping
     public ResponseEntity<Artista> cria(@Validated @RequestBody Artista artista, HttpServletResponse response) {
-
         Artista artistaSalva = artistaServico.salva(artista);
-
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequestUri()
                 .path("/{id}")
@@ -37,8 +39,14 @@ public class ArtistaControle {
                 .toUri();
 
         //response.setHeader("Location", uri.toString() );
-
         return  ResponseEntity.created(uri).body(artistaSalva );
+    }*/
+    @PostMapping
+    public ResponseEntity<?> cria(@Validated @RequestBody Artista artista, HttpServletResponse response) {
+        Artista artistaSalvo = artistaServico.salva(artista );
+        publisher.publishEvent(new RecursoCriadoEvent(this, response, artistaSalvo.getCodigo() ));
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(artistaSalvo );
     }
 
     @GetMapping
