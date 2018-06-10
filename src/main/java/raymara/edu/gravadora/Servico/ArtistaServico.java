@@ -16,10 +16,13 @@ import java.util.Optional;
 @Service
 public class ArtistaServico {
     private final ArtistaRepositorio artistaRepositorio;
+    private final GenericoServico<Artista> genericoServico;
 
     @Autowired
     public ArtistaServico(ArtistaRepositorio artistaRepositorio) {
         this.artistaRepositorio = artistaRepositorio;
+
+        this.genericoServico = new GenericoServico<Artista>(artistaRepositorio );
     }
 
     Optional<Artista> buscaPor(String nome) {
@@ -27,40 +30,40 @@ public class ArtistaServico {
     }
 
     public Artista buscaPor(Integer id) {
-        Optional<Artista> optionalArtista = artistaRepositorio.findById(id );
-        return optionalArtista.orElse(null);
+        return this.genericoServico.buscaPor(id );
     }
 
     @Transactional
     public Artista salva(Artista artista ) {
-        return this.artistaRepositorio.save(artista );
+        return this.genericoServico.salva(artista );
     }
 
     @Transactional(readOnly = true)
     public List<Artista> obterTodasArtistas() {
-        return artistaRepositorio.findAll();
-        //return new ArrayList<>();
+        return genericoServico.buscaTodasAsEntities();
     }
 
     @Transactional
     public void excluir(Integer id) {
-        artistaRepositorio.deleteById(id );
+        this.genericoServico.excluir(id );
     }
 
     @Transactional
     public Artista atualiza(Integer id, Artista artista) {
+
+        return this.genericoServico.atualiza(artista, id );
+    }
+
+    /*@Transactional
+    public Artista atualiza(Integer id, Artista artista) {
         Artista categoriaManager = this.buscaPor(id );
 
         if (categoriaManager == null) {
-
             throw new EmptyResultDataAccessException(1 );
         }
-
         BeanUtils.copyProperties(artista, categoriaManager, "id" );
-
         this.salva(categoriaManager );
-
         return categoriaManager;
-    }
+    }*/
 }
 
