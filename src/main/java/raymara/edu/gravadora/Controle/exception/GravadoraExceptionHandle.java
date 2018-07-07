@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ControllerAdvice
-public class ArtistaExceptionHandle extends ResponseEntityExceptionHandler {
+public class GravadoraExceptionHandle extends ResponseEntityExceptionHandler {
     private final MessageSource messageSource;
 
     @Autowired
-    public ArtistaExceptionHandle(MessageSource messageSource) {
+    public GravadoraExceptionHandle(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
 
