@@ -1,12 +1,11 @@
 package raymara.edu.gravadora.Modelo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,6 +18,18 @@ public class Musica implements Serializable {
     @Size(min = 3, max = 30)
     private String nome;
     private Integer duracao;
+
+    @ManyToMany
+    @JoinTable(name = "musica_album",
+            joinColumns = @JoinColumn(name = "musica"),
+            inverseJoinColumns = @JoinColumn(name = "album"))
+    private List<Album> albuns = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "artista_musica",
+            joinColumns = @JoinColumn(name = "artista"),
+            inverseJoinColumns = @JoinColumn(name = "musica"))
+    private List<Artista> artistas = new ArrayList<>();
 
     public Integer getCodigo() {
         return codigo;
@@ -40,9 +51,34 @@ public class Musica implements Serializable {
         return duracao;
     }
 
-    public void setDurcao(Integer duracao) {
+    public void setDuracao(Integer duracao) {
         this.duracao = duracao;
     }
+
+    public List<Album> getAlbuns() {
+        return albuns;
+    }
+
+    public void setAlbuns(List<Album> albuns) {
+        this.albuns = albuns;
+    }
+
+    public List<Artista> getArtistas() {
+        return artistas;
+    }
+
+    public void setArtistas(List<Artista> artistas) {
+        this.artistas = artistas;
+    }
+
+    public void adicionaAlbum(Album album) {
+        albuns.add(album);
+    }
+
+    public void adicionaArtista(Artista artista) {
+        artistas.add(artista);
+    }
+
 
     @Override
     public boolean equals(Object o) {

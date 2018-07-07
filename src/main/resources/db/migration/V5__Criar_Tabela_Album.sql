@@ -4,3 +4,4 @@ CREATE TABLE IF NOT EXISTS `gravadora`.`album` (
   `ano` INT(11) NULL,
   PRIMARY KEY (`codigo`))
 ENGINE = InnoDB;
+
