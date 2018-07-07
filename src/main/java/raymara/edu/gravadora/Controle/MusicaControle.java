@@ -13,6 +13,8 @@ import raymara.edu.gravadora.Servico.MusicaServico;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+@RestController
+@RequestMapping("/api/musica")
 public class MusicaControle {
     private  final MusicaServico musicaServico;
 
