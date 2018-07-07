@@ -2,7 +2,7 @@ language: java
 jdk:
   - oraclejdk8
 services:
-  - mysql
+  - db
 before_install:
   - chmod +x mvnw
-  - mysql -u root -e 'CREATE DATABASE IF NOT EXISTS gravadora;'
+  - db -u root -e 'CREATE DATABASE IF NOT EXISTS gravadora;'
