@@ -50,7 +50,6 @@ public class ArtistaServico {
 
     @Transactional
     public Artista atualiza(Integer id, Artista artista) {
-
         return this.genericoServico.atualiza(artista, id );
     }
 

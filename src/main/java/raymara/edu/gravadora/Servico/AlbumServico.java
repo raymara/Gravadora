@@ -46,7 +46,6 @@ public class AlbumServico {
 
     @Transactional
     public Album atualiza(Integer id, Album album) {
-
         return this.genericoServico.atualiza(album, id );
     }
 
